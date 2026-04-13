@@ -1,4 +1,3 @@
-# Player class
 class Player:
     def __init__(self, name):
         self.name = name
@@ -8,7 +7,6 @@ class Player:
         self.has_lantern = False
 
 
-# Function: welcome player (now returns Player object)
 def welcome_player():
     print("Welcome to the Adventure Game!")
     name = input("What is your name, adventurer? ")
@@ -16,52 +14,60 @@ def welcome_player():
     return Player(name)
 
 
-# Function: describe area
 def describe_area():
     print("\nYou find yourself in a dark forest...")
-    print("You see two paths ahead:")
+    print("You see several paths ahead:")
     print("1. Take the left path into the dark woods.")
     print("2. Take the right path toward the mountain pass.")
-    print("3. Enter the cave.")
+    print("3. Explore a nearby cave.")
+    print("4. Search for a hidden valley.")
     print("Type 'i' to view your inventory.")
+    print("Type 'q' to quit.")
 
 
-# Function: add to inventory (UPDATED)
 def add_to_inventory(player, item):
-    player.inventory.append(item)
-    print(f"You picked up a {item}!")
+    if item not in player.inventory:
+        player.inventory.append(item)
+        print(f"You picked up {item}!")
+    else:
+        print(f"You already have {item}.")
 
 
-# Start game
 player = welcome_player()
 describe_area()
 
-# Game loop
 while True:
-    choice = input("\nWhat will you do (1, 2, 3, or i): ").lower()
+    choice = input("\nWhat will you do (1, 2, 3, 4, i, or q): ").lower()
 
     if choice == "1":
         print(f"{player.name}, you step into the dark woods...")
         if not player.has_lantern:
-            add_to_inventory(player, "lantern")
+            add_to_inventory(player, "a lantern")
             player.has_lantern = True
         else:
-            print("You already have a lantern.")
+            print("You already found the lantern here.")
 
     elif choice == "2":
         print(f"{player.name}, you head toward the mountain pass...")
         if not player.has_map:
-            add_to_inventory(player, "map")
+            add_to_inventory(player, "a map")
             player.has_map = True
         else:
-            print("You already have a map.")
+            print("You already found the map here.")
 
     elif choice == "3":
-        # 🔥 Stretch goal condition
-        if not player.has_lantern:
-            print("It's too dark to enter the cave without a lantern.")
+        if player.has_lantern:
+            print(f"{player.name}, you explore the cave with your lantern.")
+            add_to_inventory(player, "treasure")
         else:
-            print(f"{player.name}, you enter the cave safely with your lantern!")
+            print("It's too dark to explore the cave without a lantern.")
+
+    elif choice == "4":
+        if player.has_map:
+            print(f"{player.name}, you use your map to find the hidden valley.")
+            add_to_inventory(player, "rare herbs")
+        else:
+            print("You can't find the hidden valley without a map.")
 
     elif choice == "i":
         if len(player.inventory) == 0:
@@ -70,6 +76,10 @@ while True:
             print("Inventory:")
             for item in player.inventory:
                 print(f"- {item}")
+
+    elif choice == "q":
+        print("Thanks for playing!")
+        break
 
     else:
         print("Invalid choice. Try again.")
