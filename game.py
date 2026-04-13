@@ -21,6 +21,7 @@ def describe_area():
     print("2. Take the right path toward the mountain pass.")
     print("3. Explore a nearby cave.")
     print("4. Search for a hidden valley.")
+    print("5. Stay where you are.")
     print("Type 'i' to view your inventory.")
     print("Type 'q' to quit.")
 
@@ -40,6 +41,10 @@ def show_inventory(player):
         print("Inventory:")
         for item in player.inventory:
             print(f"- {item}")
+
+
+def show_health(player):
+    print(f"Current health: {player.health}")
 
 
 def explore_dark_woods(player):
@@ -66,6 +71,8 @@ def explore_cave(player):
         add_to_inventory(player, "treasure")
     else:
         print("It's too dark to explore the cave without a lantern.")
+        player.health -= 10
+        print("You stumble in the dark and lose 10 health.")
 
 
 def explore_hidden_valley(player):
@@ -74,13 +81,37 @@ def explore_hidden_valley(player):
         add_to_inventory(player, "rare herbs")
     else:
         print("You can't find the hidden valley without a map.")
+        player.health -= 10
+        print("You get lost and lose 10 health.")
+
+
+def stay_still(player):
+    print(f"{player.name}, you stay still for too long.")
+    player.health -= 10
+    print("You lose 10 health.")
+
+
+def check_win(player):
+    if "treasure" in player.inventory and "rare herbs" in player.inventory:
+        print(f"\nCongratulations, {player.name}! You found the treasure and the rare herbs.")
+        print("You win the Adventure Game!")
+        return True
+    return False
+
+
+def check_lose(player):
+    if player.health <= 0:
+        print(f"\n{player.name}, your health has dropped to 0.")
+        print("You lost the Adventure Game.")
+        return True
+    return False
 
 
 player = welcome_player()
 describe_area()
 
 while True:
-    choice = input("\nWhat will you do (1, 2, 3, 4, i, or q): ").lower()
+    choice = input("\nWhat will you do (1, 2, 3, 4, 5, i, or q): ").lower()
 
     if choice == "1":
         explore_dark_woods(player)
@@ -94,6 +125,9 @@ while True:
     elif choice == "4":
         explore_hidden_valley(player)
 
+    elif choice == "5":
+        stay_still(player)
+
     elif choice == "i":
         show_inventory(player)
 
@@ -103,3 +137,11 @@ while True:
 
     else:
         print("Invalid choice. Try again.")
+
+    show_health(player)
+
+    if check_win(player):
+        break
+
+    if check_lose(player):
+        break
