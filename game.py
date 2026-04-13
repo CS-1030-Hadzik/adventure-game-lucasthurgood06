@@ -33,6 +33,15 @@ def add_to_inventory(player, item):
         print(f"You already have {item}.")
 
 
+def show_inventory(player):
+    if len(player.inventory) == 0:
+        print("Your inventory is empty.")
+    else:
+        print("Inventory:")
+        for item in player.inventory:
+            print(f"- {item}")
+
+
 def explore_dark_woods(player):
     print(f"{player.name}, you step into the dark woods...")
     if not player.has_lantern:
@@ -65,15 +74,6 @@ def explore_hidden_valley(player):
         add_to_inventory(player, "rare herbs")
     else:
         print("You can't find the hidden valley without a map.")
-
-
-def show_inventory(player):
-    if len(player.inventory) == 0:
-        print("Your inventory is empty.")
-    else:
-        print("Inventory:")
-        for item in player.inventory:
-            print(f"- {item}")
 
 
 player = welcome_player()
