@@ -1,25 +1,25 @@
-
-
 # Inventory list
 inventory = []
 
 # Function: welcome player
 def welcome_player():
     print("Welcome to the Adventure Game!")
-    name = input("What is your name, adventurer? ")
-    print(f"Welcome, {name}! Your journey begins now.")
+    name = input("What is your name? ")
+    print(f"Nice to meet you, {name}!")
     return name
 
-# Function: describe area
+# Function: describe the area
 def describe_area():
-    print("\nYou find yourself in a dark forest...")
-    print("You see two paths ahead:")
-    print("1. Take the left path into the dark woods.")
-    print("2. Take the right path toward the mountain pass.")
-    print("3. Stay where you are.")
-    print("Type 'i' to view your inventory.")
+    print("""
+You find yourself at the edge of a dark forest.
+The trees are tall and block out most of the light.
+You see two paths ahead:
+1. A path leading deeper into the forest.
+2. A path leading toward a river.
+(Type 'i' at any time to check your inventory)
+""")
 
-# Function: add to inventory
+# Function: add item to inventory
 def add_to_inventory(item):
     inventory.append(item)
     print(f"You picked up a {item}!")
@@ -30,26 +30,27 @@ describe_area()
 
 # Game loop
 while True:
-    choice = input("\nWhat will you do (1, 2, 3, or i): ").lower()
+    choice = input("What do you do? (1/2/i/quit): ").lower()
 
     if choice == "1":
-        print(f"{player_name}, you step into the dark woods...")
+        print("You walk deeper into the forest...")
         add_to_inventory("lantern")
 
     elif choice == "2":
-        print(f"{player_name}, you head toward the mountain pass...")
+        print("You head toward the river...")
         add_to_inventory("map")
-
-    elif choice == "3":
-        print(f"{player_name}, you decide to stay where you are.")
 
     elif choice == "i":
         if len(inventory) == 0:
             print("Your inventory is empty.")
         else:
-            print("Inventory:")
+            print("Your inventory:")
             for item in inventory:
                 print(f"- {item}")
+
+    elif choice == "quit":
+        print("Thanks for playing!")
+        break
 
     else:
         print("Invalid choice. Try again.")
